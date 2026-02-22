@@ -1,4 +1,4 @@
-const CACHE = "picks-pwa-v2";
+const CACHE = "picks-pwa-v1";
 const ASSETS = [
   "./",
   "./index.html",
