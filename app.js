@@ -241,6 +241,17 @@ function buildCards(){
 
     item.appendChild(top);
     item.appendChild(grid);
+
+    // ADD TO HISTORY BUTTON
+    const btn = document.createElement("button");
+    btn.className = "addHistoryBtn";
+    btn.textContent = "Add to History";
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      addToHistory(r);
+    });
+    item.appendChild(btn);
+
     list.appendChild(item);
   });
 }
@@ -379,4 +390,12 @@ async function init(){
 
   await loadDataset(state.datasets[0]?.slug);
 }
+
+function addToHistory(row){
+  const history = JSON.parse(localStorage.getItem("betHistory") || "[]");
+  history.push(row);
+  localStorage.setItem("betHistory", JSON.stringify(history));
+  alert("Added to history");
+}
+
 init();

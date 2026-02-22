@@ -194,6 +194,20 @@ body.compact .cardList{display:block}
 .v{font-size: 14px}
 
 
-tr.value-high { background: rgba(34,197,94,.18); }
-tr.value-mid { background: rgba(34,197,94,.10); }
-tr.value-neg { background: rgba(239,68,68,.12); }
+/* Add To History Button */
+.addHistoryBtn {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #22c55e;
+  background: transparent;
+  color: #22c55e;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addHistoryBtn:hover {
+  background: #22c55e;
+  color: #000;
+}
