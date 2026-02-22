@@ -4,18 +4,19 @@
     "League",
     "Home",
     "Away",
-    "Market",
-    "Model Probability",
+    "Pick",
+    "P(Over2.5)",
     "Bookmaker Odds"
   ],
   "rows": [
-  [
-    "2026-02-22",
-    "Test League",
-    "Team A",
-    "Team B",
-    "Over 2.5",
-    0.5,
-    2.0
+    {
+      "DateUTC (date)": "2026-02-22",
+      "League": "Premier League",
+      "Home": "Arsenal",
+      "Away": "Chelsea",
+      "Pick": "Over 2.5",
+      "P(Over2.5)": 0.72,
+      "Bookmaker Odds": 1.95
+    }
   ]
-  ]
+}
