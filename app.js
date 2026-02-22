@@ -252,6 +252,45 @@ function buildCards(){
     });
     item.appendChild(btn);
 
+    
+    // HISTORY CONTROLS
+    if(state.current?.slug === "bet-history"){
+      const controls = document.createElement("div");
+      controls.className = "historyControls";
+
+      const result = document.createElement("select");
+      ["Pending","Won","Lost"].forEach(opt=>{
+        const o = document.createElement("option");
+        o.value = opt;
+        o.textContent = opt;
+        if(r.Result === opt) o.selected = true;
+        result.appendChild(o);
+      });
+
+      result.addEventListener("change", ()=>{
+        r.Result = result.value;
+        calculateProfit(r);
+        saveHistory();
+        render();
+      });
+
+      const stake = document.createElement("input");
+      stake.type = "number";
+      stake.placeholder = "Stake";
+      stake.value = r.Stake || 0;
+
+      stake.addEventListener("change", ()=>{
+        r.Stake = Number(stake.value);
+        calculateProfit(r);
+        saveHistory();
+        render();
+      });
+
+      controls.appendChild(result);
+      controls.appendChild(stake);
+      item.appendChild(controls);
+    }
+
     list.appendChild(item);
   });
 }
@@ -417,5 +456,21 @@ function addToHistory(row){
   localStorage.setItem("betHistory", JSON.stringify(history));
   alert("Added to history");
 }
+
+
+function calculateProfit(bet){
+  if(bet.Result === "Won"){
+    bet.Profit = bet.Stake * ((bet["Bookmaker Odds"] || 1) - 1);
+  }else if(bet.Result === "Lost"){
+    bet.Profit = -bet.Stake;
+  }else{
+    bet.Profit = 0;
+  }
+}
+
+function saveHistory(){
+  localStorage.setItem("betHistory", JSON.stringify(state.raw));
+}
+
 
 init();
