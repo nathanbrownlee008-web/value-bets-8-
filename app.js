@@ -303,12 +303,30 @@ function initFilters(){
   $("pminLabel").textContent = pCol ? `Min ${pCol}` : "Min probability";
 }
 
+
 async function loadDataset(slug){
   const ds = state.datasets.find(d=>d.slug===slug) || state.datasets[0];
   state.current = ds;
   $("status").textContent = "Loading…";
   buildTabs();
 
+  // LOAD BET HISTORY FROM LOCAL STORAGE
+  if (ds.slug === "bet-history") {
+    const history = JSON.parse(localStorage.getItem("betHistory") || "[]");
+
+    state.raw = history;
+    state.columnsAll = history.length ? Object.keys(history[0]) : [];
+    state.columns = state.columnsAll.slice(0, 8);
+    state.sortKey = state.columns[0] || null;
+    state.sortDir = "asc";
+
+    initFilters();
+    $("status").textContent = "Local history data";
+    render();
+    return;
+  }
+
+  // NORMAL DATASETS
   const res = await fetch(ds.file, {cache:"no-store"});
   const json = await res.json();
   state.raw = json.rows || [];
@@ -316,10 +334,12 @@ async function loadDataset(slug){
   state.columns = inferPrimaryCols(state.columnsAll);
   state.sortKey = state.columns[0] || null;
   state.sortDir = "asc";
+
   initFilters();
   $("status").textContent = "Offline data (bundled).";
   render();
 }
+
 
 function render(){
   applyFilters();
